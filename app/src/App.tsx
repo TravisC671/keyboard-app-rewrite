@@ -1,49 +1,70 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { ThemeProvider } from "./components/theme-provider";
+import { Button } from "./components/ui/button";
+import "./index.css";
+import { emptyMacro } from "./lib/constants";
+import settings from "./lib/testdata.json";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Gallery />
+    </ThemeProvider>
+  );
+}
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+function Gallery() {
+  const btnCount = settings.layout.width * settings.layout.height;
+
+  let macros = [];
+
+  for (let i = 0; i < btnCount; i++) {
+    if (settings.macros[i]) {
+      macros.push(settings.macros[i]);
+    } else {
+      macros.push(emptyMacro);
+    }
   }
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
+    <main className="w-screen h-screen flex items-center justify-center">
+      <div
+        className={`grid gap-3`}
+        style={{
+          gridTemplateRows: `repeat(${settings.layout.height}, 128px)`,
+          gridTemplateColumns: `repeat(${settings.layout.width}, 128px)`,
         }}
       >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
+        {macros.map((macro, index) => (
+          <Button
+            key={`macro${index}`}
+            className={`h-32 w-32 hover:scale-110 ease-in `}
+            style={{
+              backgroundImage: `linear-gradient(to top right, ${macro.gradient.from}, ${macro.gradient.to})`,
+            }}
+          >
+            {macro.name}
+          </Button>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+type MacroSettingsFn = {
+  selectedMacroIndex: number;
+};
+function MacroSettings({ selectedMacroIndex }: MacroSettingsFn) {
+  const macro = settings.macros[selectedMacroIndex];
+
+  if (!macro) {
+    return;
+  }
+
+  //tabs with one that changes appearance and one that changes macro function
+  return (
+    <main>
+      <div></div>
+      <div></div>
     </main>
   );
 }

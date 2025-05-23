@@ -1,0 +1,52 @@
+{
+  "layout": {
+    "width": 4,
+    "height": 2
+  },
+  "macros": [
+    {
+      "id": 1,
+      "name": "Open Terminal",
+      "type": "keypress",
+      "keys": ["ctrl", "alt", "t"],
+      "gradient": {
+        "from": "#bafb41",
+        "to": "#85fa91"
+      },
+      "image": "terminal.png"
+    },
+    {
+      "id": 2,
+      "name": "Launch Browser",
+      "type": "command",
+      "command": "firefox",
+      "gradient": {
+        "from": "#a541fa",
+        "to": "#6c9efb"
+      },
+      "image": "browser.png"
+    },
+    {
+      "id": 3,
+      "name": "Build Project",
+      "type": "script",
+      "path": "/home/user/scripts/build.sh",
+      "gradient": {
+        "from": "#e6584a",
+        "to": "#e5458f"
+      },
+      "image": "build.png"
+    },
+    {
+      "id": 4,
+      "name": "Volume Up",
+      "type": "keypress",
+      "keys": ["volumeup"],
+      "gradient": {
+        "from": "#7966fa",
+        "to": "#83d6fc"
+      },
+      "image": "volume_up.png"
+    }
+  ]
+}
