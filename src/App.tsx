@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./components/ui/select";
+import { ColorPicker } from "./components/ui/color-picker";
 
 function App() {
   return (
@@ -107,6 +108,8 @@ export function SlidingUnderlineTabs() {
   const [underlineWidth, setUnderlineWidth] = useState(0);
   const [underlineLeft, setUnderlineLeft] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const [colorFrom, setColorFrom] = useState("#bafb41");
+  const [colorTo, setColorTo] = useState("#85fa91");
 
   useEffect(() => {
     const activeTabElement = tabsRef.current.find(
@@ -138,13 +141,31 @@ export function SlidingUnderlineTabs() {
         ></div>
       </TabsList>
       <TabsContent value="appearance" className="mt-4">
-        <Card>
-          <CardContent>
-            <div className="space-y-1">
-              <NameInput defaultValue={"Open Terminal"} />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <h3 className="text-lg font-medium">Macro Button Appearance</h3>
+            <p className="text-sm text-muted-foreground">
+              For anything not related to the functionality of the macro
+            </p>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-medium">Macro Name</h3>
+            <Input defaultValue={"Open Terminal"} className="w-[60%]" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-medium">Macro Gradient</h3>
+            <div
+              className=" w-[80%] h-9 rounded-sm"
+              style={{
+                backgroundImage: `linear-gradient(to right, #bafb41, #85fa91)`,
+              }}
+            ></div>
+            <ColorPicker
+              onChange={(value) => setColorFrom(value)}
+              value={colorFrom}
+            />
+          </div>
+        </div>
       </TabsContent>
       <TabsContent value="Macro" className="mt-4">
         <div className="space-y-2">
