@@ -1,5 +1,6 @@
+import { MacroBtn } from "./components/MacroBtn";
 import { ThemeProvider } from "./components/theme-provider";
-import { Button } from "./components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import "./index.css";
 import { emptyMacro } from "./lib/constants";
 import settings from "./lib/testdata.json";
@@ -35,15 +36,14 @@ function Gallery() {
         }}
       >
         {macros.map((macro, index) => (
-          <Button
-            key={`macro${index}`}
-            className={`h-32 w-32 hover:scale-110 ease-in `}
-            style={{
-              backgroundImage: `linear-gradient(to top right, ${macro.gradient.from}, ${macro.gradient.to})`,
-            }}
-          >
-            {macro.name}
-          </Button>
+          <MacroBtn
+            key={`macroBtn${index}`}
+            gradientFrom={macro.gradient.from}
+            gradientTo={macro.gradient.to}
+            name={macro.name}
+            height="h-32"
+            width="w-32"
+          ></MacroBtn>
         ))}
       </div>
     </main>
@@ -64,7 +64,15 @@ function MacroSettings({ selectedMacroIndex }: MacroSettingsFn) {
   return (
     <main>
       <div></div>
-      <div></div>
+      <div>
+        <Tabs>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account"></TabsContent>
+        </Tabs>
+      </div>
     </main>
   );
 }
