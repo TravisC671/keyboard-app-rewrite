@@ -1,15 +1,16 @@
-import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+import { Input } from "./input";
 
-export function ColorPicker() {
-  const [color, setColor] = useState("#aabbcc");
-
+type ColorPickerFn = {
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+  color: string;
+};
+export function ColorPicker({ setColor, color }: ColorPickerFn) {
   const handleChange = (newColor: string) => {
     setColor(newColor);
     //  Perform actions with the new color here, such as
@@ -17,13 +18,27 @@ export function ColorPicker() {
     console.log("color:", newColor);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let input = e.target.value;
+
+    if (input[0] != "#") {
+      setColor(`#${input}`);
+    } else {
+      setColor(input);
+    }
+  };
+
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button style={{ backgroundColor: color }} />
+      <PopoverTrigger>
+        <div
+          className="w-13 h-8 rounded-sm"
+          style={{ backgroundColor: color }}
+        ></div>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="w-min" align="start" side="left">
         <HexColorPicker color={color} onChange={handleChange} />
+        <Input value={color} onChange={handleInputChange} className="mt-2" />
       </PopoverContent>
     </Popover>
   );

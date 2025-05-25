@@ -29,6 +29,8 @@ import {
   SelectValue,
 } from "./components/ui/select";
 import { ColorPicker } from "./components/ui/color-picker";
+import { ImageInput } from "./components/ui/image-input";
+import { ReactSetStateString } from "./lib/utils";
 
 function App() {
   return (
@@ -66,6 +68,7 @@ function Gallery() {
             gradientFrom={macro.gradient.from}
             gradientTo={macro.gradient.to}
             name={macro.name}
+            imageUrl={macro.image}
             className="h-32 w-32"
           ></MacroBtn>
         ))}
@@ -79,6 +82,14 @@ type MacroSettingsFn = {
 };
 function MacroSettings({ selectedMacroIndex }: MacroSettingsFn) {
   const macro = settings.macros[selectedMacroIndex];
+  const [colorFrom, setColorFrom] = useState(emptyMacro.gradient.from);
+  const [colorTo, setColorTo] = useState(emptyMacro.gradient.to);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setColorFrom(macro.gradient.from);
+    setColorTo(macro.gradient.to);
+  }, []);
 
   if (!macro) {
     return;
@@ -89,27 +100,49 @@ function MacroSettings({ selectedMacroIndex }: MacroSettingsFn) {
     <main className="grid max-w-2xl grid-cols-[1fr_1fr] h-screen">
       <div className="flex-3 flex justify-center mt-14">
         <MacroBtn
-          gradientFrom={macro.gradient.from}
-          gradientTo={macro.gradient.to}
+          imageUrl={imageUrl}
+          disableHover
+          gradientFrom={colorFrom}
+          gradientTo={colorTo}
           name={macro.name}
           className="h-40 w-40"
         ></MacroBtn>
       </div>
       <div className="w-[400px] mt-3">
-        <SlidingUnderlineTabs />
+        <SlidingUnderlineTabs
+          colorFrom={colorFrom}
+          setColorFrom={setColorFrom}
+          colorTo={colorTo}
+          setColorTo={setColorTo}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+        />
       </div>
     </main>
   );
 }
 
 //https://v0.dev/chat/restyling-shadcn-tabs-z4p1nL6Sgjx#asmyDYyS6m7jlGCeDrI4WbxVBOjLunXF
-export function SlidingUnderlineTabs() {
-  const [activeTab, setActiveTab] = useState("account");
+type SlidingUnderlineTabsFn = {
+  colorFrom: string;
+  setColorFrom: ReactSetStateString;
+  colorTo: string;
+  setColorTo: ReactSetStateString;
+  imageUrl: string | undefined;
+  setImageUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+export function SlidingUnderlineTabs({
+  colorFrom,
+  setColorFrom,
+  colorTo,
+  setColorTo,
+  imageUrl,
+  setImageUrl,
+}: SlidingUnderlineTabsFn) {
+  const [activeTab, setActiveTab] = useState("appearance");
   const [underlineWidth, setUnderlineWidth] = useState(0);
   const [underlineLeft, setUnderlineLeft] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
-  const [colorFrom, setColorFrom] = useState("#bafb41");
-  const [colorTo, setColorTo] = useState("#85fa91");
 
   useEffect(() => {
     const activeTabElement = tabsRef.current.find(
@@ -157,12 +190,20 @@ export function SlidingUnderlineTabs() {
             <div
               className=" w-[80%] h-9 rounded-sm"
               style={{
-                backgroundImage: `linear-gradient(to right, #bafb41, #85fa91)`,
+                backgroundImage: `linear-gradient(to right, ${colorFrom}, ${colorTo})`,
               }}
             ></div>
-            <ColorPicker
-              onChange={(value) => setColorFrom(value)}
-              value={colorFrom}
+            <div className="flex justify-between w-[80%]">
+              <ColorPicker color={colorFrom} setColor={setColorFrom} />
+              <ColorPicker color={colorTo} setColor={setColorTo} />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-medium">Macro Button Image</h3>
+            <ImageInput
+              className="w-[50%]"
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
             />
           </div>
         </div>
