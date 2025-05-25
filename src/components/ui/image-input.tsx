@@ -6,7 +6,7 @@ type ImageInputFn = {
   imageUrl: string | undefined;
   setImageUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
-export function ImageInput({ className, imageUrl, setImageUrl }: ImageInputFn) {
+export function ImageInput({ className, setImageUrl }: ImageInputFn) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
