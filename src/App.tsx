@@ -1,4 +1,4 @@
-import { MacroBtn } from "./components/MacroBtn";
+import { MacroBtn } from "./components/macro-btn";
 import { ThemeProvider } from "./components/theme-provider";
 import "./index.css";
 import { emptyMacro } from "./lib/constants";

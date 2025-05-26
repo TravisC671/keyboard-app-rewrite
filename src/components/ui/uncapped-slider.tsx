@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "./input";
 import { Slider } from "./slider";
 
@@ -11,6 +11,11 @@ export function UncappedSlider({
   setActionHoldTime,
 }: UncappedSliderFn) {
   const [value, setValue] = useState(actionHoldTime);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setActionHoldTime(parseInt(e.target.value));
+    setValue(parseInt(e.target.value));
+  };
 
   return (
     <div className="flex gap-2">
@@ -28,7 +33,7 @@ export function UncappedSlider({
         type="number"
         value={value}
         step={50}
-        onChange={(e) => setActionHoldTime(parseFloat(e.target.value))}
+        onChange={handleInputChange}
       />
     </div>
   );
