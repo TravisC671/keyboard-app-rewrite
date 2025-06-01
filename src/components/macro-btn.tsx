@@ -8,6 +8,7 @@ type MacroBtnFn = {
   className: string;
   imageUrl: string | undefined;
   disableHover?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 export function MacroBtn({
   gradientFrom,
@@ -16,9 +17,12 @@ export function MacroBtn({
   className,
   imageUrl,
   disableHover = false,
+  onClick,
 }: MacroBtnFn) {
+  console.log(imageUrl);
   return (
     <Button
+      onClick={onClick}
       className={cn(
         ` ${!disableHover && "hover:scale-110"} ease-in`,
         className
@@ -28,7 +32,11 @@ export function MacroBtn({
       }}
     >
       <div className="flex flex-col font-bold font-[Geist-Bold]">
-        {imageUrl && <img src={imageUrl} alt="Preview" />}
+        {imageUrl !== "" ? (
+          <img src={imageUrl} alt={`${name}`} />
+        ) : (
+          <h1>{name}</h1>
+        )}
         {/* <h1>{name}</h1> */}
       </div>
     </Button>

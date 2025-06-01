@@ -13,9 +13,6 @@ type ColorPickerFn = {
 export function ColorPicker({ setColor, color }: ColorPickerFn) {
   const handleChange = (newColor: string) => {
     setColor(newColor);
-    //  Perform actions with the new color here, such as
-    //  updating a preview, changing UI elements, etc.
-    console.log("color:", newColor);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

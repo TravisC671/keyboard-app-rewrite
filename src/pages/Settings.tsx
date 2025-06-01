@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import settings from "../lib/testdata.json";
 import { MacroBtn } from "@/components/macro-btn";
-import { ReactSetStateString } from "@/lib/utils";
+import { FormattedDateTime, ReactSetStateString } from "@/lib/utils";
 import {
   Tabs,
   TabsContent,
@@ -22,20 +22,22 @@ import {
 import { emptyMacro } from "@/lib/constants";
 import { UncappedSlider } from "@/components/ui/uncapped-slider";
 import { Command, Keybind, Script } from "./components/triggers";
+import { useParams } from "react-router";
+import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
-type MacroSettings = {
-  selectedMacroIndex: number;
-};
-export function MacroSettings({ selectedMacroIndex }: MacroSettings) {
-  const macro = settings.macros[selectedMacroIndex];
-  const [colorFrom, setColorFrom] = useState(emptyMacro.gradient.from);
-  const [colorTo, setColorTo] = useState(emptyMacro.gradient.to);
+export function MacroSettings() {
+  let { keyindex } = useParams();
+
+  let index = parseInt(keyindex ?? "0");
+  const macro =
+    settings.macros.find((selMacro) => selMacro.id === index) ?? emptyMacro;
+  const [colorFrom, setColorFrom] = useState(macro.gradient.from);
+  const [colorTo, setColorTo] = useState(macro.gradient.to);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    setColorFrom(macro.gradient.from);
-    setColorTo(macro.gradient.to);
-  }, []);
+  const [macroName, setMacroName] = useState<string>(macro.name);
+  const [macroType, setMacroType] = useState<string>(macro.name);
 
   if (!macro) {
     return;
@@ -43,8 +45,8 @@ export function MacroSettings({ selectedMacroIndex }: MacroSettings) {
 
   //tabs with one that changes appearance and one that changes macro function
   return (
-    <main className="grid max-w-2xl grid-cols-[1fr_1fr] h-screen">
-      <div className="flex-3 flex justify-center mt-14">
+    <main className="grid max-w-2xl grid-cols-[250px_500px] h-screen">
+      <div className="flex justify-center mt-14 col-start-1">
         <MacroBtn
           imageUrl={imageUrl}
           disableHover
@@ -54,7 +56,7 @@ export function MacroSettings({ selectedMacroIndex }: MacroSettings) {
           className="h-40 w-40"
         ></MacroBtn>
       </div>
-      <div className="w-[400px] mt-3">
+      <div className="w-[500px] mt-3 col-start-2">
         <SlidingUnderlineTabs
           colorFrom={colorFrom}
           setColorFrom={setColorFrom}
@@ -64,6 +66,19 @@ export function MacroSettings({ selectedMacroIndex }: MacroSettings) {
           setImageUrl={setImageUrl}
         />
       </div>
+      <div className="absolute bottom-10 right-10">
+        <Button
+          className="w-[150px] text-base"
+          onClick={() =>
+            toast("Macro Has been saved", {
+              description: FormattedDateTime(),
+            })
+          }
+        >
+          Save Macro
+        </Button>
+      </div>
+      <Toaster position="bottom-left" />
     </main>
   );
 }

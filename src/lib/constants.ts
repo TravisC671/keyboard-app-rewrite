@@ -6,5 +6,5 @@ export const emptyMacro = {
     from: "#343434",
     to: "#5a5a5a",
   },
-  image: " ",
+  image: "",
 };

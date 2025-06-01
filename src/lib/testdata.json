@@ -5,7 +5,7 @@
   },
   "macros": [
     {
-      "id": 1,
+      "id": 0,
       "name": "Open Terminal",
       "type": "keypress",
       "keys": ["ctrl", "alt", "t"],
@@ -13,10 +13,10 @@
         "from": "#bafb41",
         "to": "#85fa91"
       },
-      "image": "terminal.png"
+      "image": ""
     },
     {
-      "id": 2,
+      "id": 1,
       "name": "Launch Browser",
       "type": "command",
       "command": "firefox",
@@ -24,10 +24,10 @@
         "from": "#a541fa",
         "to": "#6c9efb"
       },
-      "image": "browser.png"
+      "image": ""
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Build Project",
       "type": "script",
       "path": "/home/user/scripts/build.sh",
@@ -35,10 +35,10 @@
         "from": "#e6584a",
         "to": "#e5458f"
       },
-      "image": "build.png"
+      "image": ""
     },
     {
-      "id": 4,
+      "id": 3,
       "name": "Volume Up",
       "type": "keypress",
       "keys": ["volumeup"],
@@ -46,7 +46,7 @@
         "from": "#7966fa",
         "to": "#83d6fc"
       },
-      "image": "volume_up.png"
+      "image": ""
     }
   ]
 }
