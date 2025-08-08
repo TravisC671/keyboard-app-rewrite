@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { useMacroStore } from "@/lib/store";
+import { useShallow } from 'zustand/react/shallow';
 
 type MacroBtnFn = {
-  gradientFrom: string;
-  gradientTo: string;
   name: string;
   className: string;
   imageUrl: string | undefined;
@@ -11,15 +11,22 @@ type MacroBtnFn = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 export function MacroBtn({
-  gradientFrom,
-  gradientTo,
   name,
   className,
   imageUrl,
   disableHover = false,
   onClick,
 }: MacroBtnFn) {
-  console.log(imageUrl);
+
+  const {macroIndex, macro} = useMacroStore(useShallow((state) => {macroIndex: state.selectedId,macro: state.macros }))
+  const macroStore = useMacroStore((state) => state.macros)
+
+  if (macroIndex == null) {
+    return <>index is wrong</>
+  }
+
+  const macro = macroStore[macroIndex]
+  
   return (
     <Button
       onClick={onClick}

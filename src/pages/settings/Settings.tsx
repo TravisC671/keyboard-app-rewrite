@@ -15,8 +15,6 @@ export function MacroSettings() {
   let index = parseInt(keyindex ?? "0");
   const macro =
     settings.macros.find((selMacro) => selMacro.id === index) ?? emptyMacro;
-  const [colorFrom, setColorFrom] = useState(macro.gradient.from);
-  const [colorTo, setColorTo] = useState(macro.gradient.to);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   if (!macro) {
@@ -30,8 +28,6 @@ export function MacroSettings() {
         <MacroBtn
           imageUrl={imageUrl}
           disableHover
-          gradientFrom={colorFrom}
-          gradientTo={colorTo}
           name={macro.name}
           className="h-40 w-40"
         ></MacroBtn>

@@ -11,6 +11,12 @@
     "fs:default",
     "dialog:default",
     "fs:allow-open",
-    "dialog:default"
+    "dialog:default",
+    "fs:default",
+    "fs:allow-app-write",
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$APPDATA/*" }]
+    }
   ]
 }
